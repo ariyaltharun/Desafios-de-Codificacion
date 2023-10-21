@@ -1,0 +1,33 @@
+* {
+    background-color: black;
+}
+
+
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
+.box {
+    background-color: blue;
+    display: flex;
+    height: 200px;
+    justify-content: center;
+    margin: 10px;
+    width: 200px;
+}
+
+.box:hover {
+    background-color: deepskyblue;
+    transition: 100ms;
+}
+
+
+.x-o {
+    color: white;
+    font-size: 10rem;
+}
