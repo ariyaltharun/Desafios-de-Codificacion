@@ -87,25 +87,29 @@ display_game_status = document.querySelector(".status")
 
 var PLAYER1 = 'X';
 var PLAYER2 = 'O';
+var game_end = false;
 
 var cur_player = PLAYER1;
 for (let i=0; i<3; i++)
     for (let j =0; j<3; j++)
-        if (board[i][j].innerText === "")
             board[i][j].addEventListener("click", (e) => {
-                if (cur_player === PLAYER1)
-                    update(PLAYER1, i, j), cur_player = PLAYER2
-                else if (cur_player === PLAYER2)
-                    update(PLAYER2, i, j), cur_player = PLAYER1
+                if (board[i][j].innerText === "" && !game_end) {
+                    if (cur_player === PLAYER1)
+                        update(PLAYER1, i, j), cur_player = PLAYER2
+                    else if (cur_player === PLAYER2)
+                        update(PLAYER2, i, j), cur_player = PLAYER1
 
-
-                game_status = board_status(board)
-                
-                if (game_status === PLAYER1) {
-                    display_game_status.innerText = "🎉 X Wins 🎉"
-                } else if (game_status === PLAYER2) {
-                    display_game_status.innerText = "🎉 O wins 🎉"
-                } else if (game_status === "draw") {
-                    display_game_status.innerText = "🤝🏻 DRAW 🤝🏻"
+                    game_status = board_status(board)
+                    
+                    if (game_status === PLAYER1) {
+                        display_game_status.innerText = "🎉 X Wins 🎉"
+                        game_end = true
+                    } else if (game_status === PLAYER2) {
+                        display_game_status.innerText = "🎉 O wins 🎉"
+                        game_end = true
+                    } else if (game_status === "draw") {
+                        display_game_status.innerText = "🤝🏻 DRAW 🤝🏻"
+                        game_end = true
+                    }
                 }
-            })    
+            })
