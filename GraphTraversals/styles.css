@@ -1,0 +1,21 @@
+* {
+    background-color: black;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+
+.node {
+    background-color: red;
+    height: 50px;
+    margin: 10px;
+    width: 50px;
+}
