@@ -79,6 +79,24 @@ function validate(a, b, c) {
 }
 
 
+function computerPlayer(value, i, j) {
+    /* ComputerPlayer: Updates the value in the random position
+    @Parameters:
+        value: fills the box with this value
+        i: row index of value filled by human
+        j: col index of value filled by human
+    @Output:
+        Not defined
+    */
+    avail.splice(avail.findIndex((e) => e[0] === i && e[1] === j), 1)
+    if (avail.length) {
+        let random_value = Math.floor(Math.random() * avail.length)
+        let [x, y] = avail[random_value]
+        board[x][y].innerText = value
+        avail.splice(random_value, 1)
+    }
+}
+
 
 /* Main */
 var board = document.querySelectorAll(".box")
@@ -88,28 +106,44 @@ display_game_status = document.querySelector(".status")
 var PLAYER1 = 'X';
 var PLAYER2 = 'O';
 var game_end = false;
-
 var cur_player = PLAYER1;
+
+// Possible players
+var HUMAN_PLAYER = false
+var COMPUTER_PLAYER = true
+
+// Computer player stuffs
+var avail = []
+for (let i=0; i<3; i++)
+    for (let j=0; j<3; j++)
+        avail.push([i, j])
+
+// Game
 for (let i=0; i<3; i++)
     for (let j =0; j<3; j++)
-            board[i][j].addEventListener("click", (e) => {
-                if (board[i][j].innerText === "" && !game_end) {
+        board[i][j].addEventListener("click", (e) => {
+            if (board[i][j].innerText === "" && !game_end) {
+                if (HUMAN_PLAYER == true) {
                     if (cur_player === PLAYER1)
                         update(PLAYER1, i, j), cur_player = PLAYER2
                     else if (cur_player === PLAYER2)
                         update(PLAYER2, i, j), cur_player = PLAYER1
+                } else if (COMPUTER_PLAYER === true) {
+                    update(PLAYER1, i, j)
+                    computerPlayer("O", i, j)
+                } 
 
-                    game_status = board_status(board)
-                    
-                    if (game_status === PLAYER1) {
-                        display_game_status.innerText = "🎉 X Wins 🎉"
-                        game_end = true
-                    } else if (game_status === PLAYER2) {
-                        display_game_status.innerText = "🎉 O wins 🎉"
-                        game_end = true
-                    } else if (game_status === "draw") {
-                        display_game_status.innerText = "🤝🏻 DRAW 🤝🏻"
-                        game_end = true
-                    }
+                game_status = board_status(board)
+                
+                if (game_status === PLAYER1) {
+                    display_game_status.innerText = "🎉 X Wins 🎉"
+                    game_end = true
+                } else if (game_status === PLAYER2) {
+                    display_game_status.innerText = "🎉 O wins 🎉"
+                    game_end = true
+                } else if (game_status === "draw") {
+                    display_game_status.innerText = "🤝🏻 DRAW 🤝🏻"
+                    game_end = true
                 }
-            })
+            }
+        })
